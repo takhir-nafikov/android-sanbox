@@ -1,3 +1,4 @@
 rootProject.name='Android-Sandbox'
 include ':app'
 include ':contentprovidersmscontacts'
+include ':contentprovidercustom'
