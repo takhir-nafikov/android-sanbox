@@ -196,8 +196,7 @@ public class Subjects {
         .observeOn(Schedulers.io())
         .subscribe(System.out::println);
 
-
-    // 10 сек
+    
     sleep(10000);
   }
 
