@@ -135,8 +135,7 @@ public class Subjects {
           sleep(50);
           System.out.println("Received MyItem " + myItem.id + " " + Thread.currentThread().getName());
         });
-
-    // 10 сек
+    
     sleep(10000);
   }
 
@@ -196,7 +195,7 @@ public class Subjects {
         .observeOn(Schedulers.io())
         .subscribe(System.out::println);
 
-    
+
     sleep(10000);
   }
 
