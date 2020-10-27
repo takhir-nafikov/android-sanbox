@@ -15,9 +15,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void onClickStart(View v) {
-    startService(new Intent(this, MyService.class).putExtra("time", 7));
-    startService(new Intent(this, MyService.class).putExtra("time", 2));
-    startService(new Intent(this, MyService.class).putExtra("time", 4));
+    startService(new Intent(this, MyService.class).putExtra("name", "value"));
   }
 
   public void onClickStop(View v) {
