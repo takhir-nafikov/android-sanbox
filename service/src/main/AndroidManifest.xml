@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".MyService"
-            android:process=":newproc"/>
+            android:name=".MyService"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
