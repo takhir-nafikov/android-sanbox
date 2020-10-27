@@ -4,8 +4,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -31,9 +29,9 @@ public class MyService extends Service {
     Log.d(LOG_TAG, "MyService onStartCommand");
 
     int time = intent.getIntExtra(MainActivity.PARAM_TIME, 1);
-    PendingIntent pi = intent.getParcelableExtra(MainActivity.PARAM_PINTENT);
+    int task = intent.getIntExtra(MainActivity.PARAM_TASK, 0);
 
-    MyRun mr = new MyRun(time, startId, pi);
+    MyRun mr = new MyRun(startId, time, task);
     es.execute(mr);
 
     return super.onStartCommand(intent, flags, startId);
@@ -47,31 +45,33 @@ public class MyService extends Service {
 
     int time;
     int startId;
-    PendingIntent pi;
+    int task;
 
-    public MyRun(int time, int startId, PendingIntent pi) {
+    public MyRun(int startId, int time, int task) {
       this.time = time;
       this.startId = startId;
-      this.pi = pi;
+      this.task = task;
       Log.d(LOG_TAG, "MyRun#" + startId + " create");
     }
 
     public void run() {
+      Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
       Log.d(LOG_TAG, "MyRun#" + startId + " start, time = " + time);
       try {
-        // сообщаем об старте задачи
-        pi.send(MainActivity.STATUS_START);
+        // сообщаем о старте задачи
+        intent.putExtra(MainActivity.PARAM_TASK, task);
+        intent.putExtra(MainActivity.PARAM_STATUS, MainActivity.STATUS_START);
+        sendBroadcast(intent);
 
         // начинаем выполнение задачи
         TimeUnit.SECONDS.sleep(time);
 
         // сообщаем об окончании задачи
-        Intent intent = new Intent().putExtra(MainActivity.PARAM_RESULT, time * 100);
-        pi.send(MyService.this, MainActivity.STATUS_FINISH, intent);
+        intent.putExtra(MainActivity.PARAM_STATUS, MainActivity.STATUS_FINISH);
+        intent.putExtra(MainActivity.PARAM_RESULT, time * 100);
+        sendBroadcast(intent);
 
       } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (CanceledException e) {
         e.printStackTrace();
       }
       stop();
