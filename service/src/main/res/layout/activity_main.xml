@@ -5,19 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/tvTask1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="">
-    </TextView>
-    <TextView
-        android:id="@+id/tvTask2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="">
-    </TextView>
-    <TextView
-        android:id="@+id/tvTask3"
+        android:id="@+id/tvInterval"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="">
@@ -28,5 +16,19 @@
         android:layout_height="wrap_content"
         android:onClick="onClickStart"
         android:text="@string/start">
+    </Button>
+    <Button
+        android:id="@+id/btnUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickUp"
+        android:text="@string/up">
+    </Button>
+    <Button
+        android:id="@+id/btnDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDown"
+        android:text="@string/down">
     </Button>
 </LinearLayout>

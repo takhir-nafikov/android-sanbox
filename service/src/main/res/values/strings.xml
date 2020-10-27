@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">service</string>
-    <string name="start">Start service</string>
-    <string name="stop">Stop service</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="bind">Bind</string>
+    <string name="unbind">Unbind</string>
+    <string name="down">Down</string>
+    <string name="up">Up</string>
 </resources>
