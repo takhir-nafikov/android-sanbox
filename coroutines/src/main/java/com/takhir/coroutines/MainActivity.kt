@@ -8,7 +8,10 @@ import android.view.View
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
+import kotlin.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,19 +54,24 @@ class MainActivity : AppCompatActivity() {
   } */
 
   private fun onRun() {
-    scope.launch {
-      log("parent coroutine, start")
+    val scope = CoroutineScope(Dispatchers.Unconfined)
 
-      val data = async { getData() }
-      val data2 = async { getData2() }
-
-      log("parent coroutine, wait until children return result")
-      val result = "${data.await()}, ${ data2.await()}"
-      log("parent coroutine, children returned: $result")
-
-      log("parent coroutine, end")
+    scope.launch() {
+      log("start coroutine")
+      val data = getData()
+      log("end coroutine")
     }
   }
+
+  private suspend fun getData(): String =
+    suspendCoroutine {
+      log("suspend function, start")
+      thread {
+        log("suspend function, background work")
+        TimeUnit.MILLISECONDS.sleep(1000)
+        it.resume("Data!")
+      }
+    }
 
   private fun onRun2() {
 //    log("onRun2, start")
@@ -74,16 +82,6 @@ class MainActivity : AppCompatActivity() {
   private fun onCancel() {
     log("onCancel")
     job.cancel()
-  }
-
-  private suspend fun getData(): String {
-    delay(1000)
-    return "data"
-  }
-
-  private suspend fun getData2(): String {
-    delay(1500)
-    return "data2"
   }
 
   override fun onDestroy() {
