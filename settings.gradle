@@ -1,3 +1,4 @@
+include ':coroutines'
 include ':service'
 include ':rxbasic'
 rootProject.name='Android-Sandbox'
