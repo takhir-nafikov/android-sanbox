@@ -27,29 +27,63 @@ class MainActivity : AppCompatActivity() {
     findViewById<View>(R.id.btnCancel).setOnClickListener{
       onCancel()
     }
+
+    findViewById<View>(R.id.btnRun2).setOnClickListener{
+      onRun2()
+    }
   }
 
   lateinit var job: Job
 
-  private fun onRun() {
-    log("onRun, start")
+  // lazy
+  /*private fun onRun() {
+    scope.launch {
+      log("onRun, start")
 
-    job = scope.launch {
-      log("coroutine, start")
-      var x = 0
-      while (x < 5 && isActive) {
-        delay(1000)
-        log("coroutine, ${x++}")
+      job = scope.launch(start = CoroutineStart.LAZY) {
+        log("coroutine, start")
+        TimeUnit.MILLISECONDS.sleep(1000)
+        log("coroutine, end")
       }
-      log("coroutine, end")
-    }
 
-    log("onRun, end")
+      log("onRun, end")
+    }
+  } */
+
+  private fun onRun() {
+    scope.launch {
+      log("parent coroutine, start")
+
+      val data = async { getData() }
+      val data2 = async { getData2() }
+
+      log("parent coroutine, wait until children return result")
+      val result = "${data.await()}, ${ data2.await()}"
+      log("parent coroutine, children returned: $result")
+
+      log("parent coroutine, end")
+    }
+  }
+
+  private fun onRun2() {
+//    log("onRun2, start")
+//    job.start()
+//    log("onRun2, end")
   }
 
   private fun onCancel() {
     log("onCancel")
     job.cancel()
+  }
+
+  private suspend fun getData(): String {
+    delay(1000)
+    return "data"
+  }
+
+  private suspend fun getData2(): String {
+    delay(1500)
+    return "data2"
   }
 
   override fun onDestroy() {

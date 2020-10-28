@@ -14,4 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancel" />
+
+    <Button
+        android:id="@+id/btnRun2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Run2" />
 </LinearLayout>
