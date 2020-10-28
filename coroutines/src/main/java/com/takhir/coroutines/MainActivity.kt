@@ -54,12 +54,21 @@ class MainActivity : AppCompatActivity() {
   } */
 
   private fun onRun() {
-    val scope = CoroutineScope(Dispatchers.Unconfined)
+    val job = scope.launch {
+      log("parent start")
+      launch {
+        log("child start")
+        delay(1000)
+        log("child end")
+      }
+      log("parent end")
+    }
 
-    scope.launch() {
-      log("start coroutine")
-      val data = getData()
-      log("end coroutine")
+    scope.launch {
+      delay(500)
+      log("parent job is active: ${job.isActive}")
+      delay(1000)
+      log("parent job is active: ${job.isActive}")
     }
   }
 
