@@ -1,22 +1,17 @@
-package com.takhir.coroutines
+package com.takhir.coroutines.lesson7
 
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.takhir.coroutines.R
 import com.takhir.coroutines.Utils.Companion.coroutineLog
 import kotlinx.coroutines.*
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.thread
-import kotlin.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
-  private var formatter = SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
+  private val TAG = "MainActivity"
 
   private val scope = CoroutineScope(Job())
 
@@ -26,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
+
     findViewById<View>(R.id.btnRun).setOnClickListener{
     }
 
@@ -34,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     findViewById<View>(R.id.btnRun2).setOnClickListener{
     }
+
+    job = scope.launch {
+      Log.d(TAG, "scope = $this")
+    }
+    Log.d(TAG, "onCreate: job = $job")
   }
 
   override fun onDestroy() {
